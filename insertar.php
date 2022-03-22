@@ -6,8 +6,9 @@ if(isset($_POST)){
 	$apaterno = $_POST['apaterno'];
 	$amaterno = $_POST['amaterno'];
 	$correo = $_POST['correo'];
+	$pass = $_POST['pass'];
 
-	if($nombre == '' || $apaterno == '' || $amaterno == '' || $correo == ''){
+	if($nombre == '' || $apaterno == '' || $amaterno == '' || $correo == '' || $pass == ''){
 
 		header('Location: index.php?error=true');
 	}else{
@@ -15,11 +16,11 @@ if(isset($_POST)){
 		if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
 			header('Location: index.php?error=true');
 		}
-		$sql = "INSERT INTO usuarios (nombre, apaterno, amaterno, correo) VALUES ('$nombre', '$apaterno', '$amaterno', '$correo');";
+		$sql = "INSERT INTO usuarios (nombre, apaterno, amaterno, correo, pass) VALUES ('$nombre', '$apaterno', '$amaterno', '$correo', '$pass');";
 		$result = pg_query($con, $sql);
 
 		if($result){
-			header('Location: index.php?success=true');
+			header('Location: login.php?success=true');
 		}else{
 			header('Location: index.php?error=true');
 		}

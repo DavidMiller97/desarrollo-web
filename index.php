@@ -1,9 +1,11 @@
 <?php require_once 'conection.php'; ?>
 <?php
-
+	session_start();
 	$sql= "SELECT * FROM usuarios";
 	$result = pg_query($con, $sql);
 	$usuarios = pg_fetch_all($result, PGSQL_ASSOC);
+	$login = null;
+	if(isset($_SESSION['valida'])) $login = $_SESSION['valida'];
 	
 ?>
 <!DOCTYPE html>
@@ -12,23 +14,7 @@
 		<title>Formulario</title>
 	</head>
 	<body>
-		<h1>Formulario</h1>
-		<form action="insertar.php" method="POST">
-
-			 <label for="nombre">Nombre</label>
-			 <input type="text" name="nombre">
-
-			 <label for="apaterno">Apellido Paterno</label>
-			 <input type="text" name="apaterno">
-
-			 <label for="amaterno">Apellido Materno</label>
-			 <input type="text" name="amaterno">
-
-    			 <label for="correo">Email</label>
-   			 <input type="email" id="correo" name="correo">
-  
- 			<button type="submit" name="submit">Enviar</button>
-		</form>
+		<?php if($login == true): ?>
 		<?php if($usuarios == null):?>
 			<h2>No hay registros</h2>
 
@@ -55,7 +41,10 @@
 				</tr>
 				<?php endforeach; ?>
 			</table>
+			<h2><a href="logout.php">Logout</a></h2>
 			<?php endif; ?>
-				
+		<?php else: ?>
+			<h1><a href="login.php">Ingresar</a></h1>
+		<?php endif; ?>				
 	</body>
 </html>
